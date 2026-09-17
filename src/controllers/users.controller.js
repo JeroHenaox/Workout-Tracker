@@ -30,7 +30,9 @@ const getUserById = (req, res) => {
   const user = users.find(u => u.id === id);
 
   if (!user) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({
+      error: "Usuario no encontrado"
+    });
   }
 
   res.status(200).json(user);
@@ -40,14 +42,16 @@ const createUser = (req, res) => {
   const { name, email, role } = req.body;
 
   if (!name || !email) {
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+    return res.status(400).json({
+      error: "Name y email son requeridos"
+    });
   }
 
   const newUser = {
     id: `${Date.now()}`,
     name,
     email,
-    role: role || 'user',
+    role: role || "user",
     createdAt: new Date().toISOString()
   };
 
@@ -63,19 +67,50 @@ const updateUser = (req, res) => {
   const index = users.findIndex(u => u.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({
+      error: "Usuario no encontrado"
+    });
   }
 
   if (!name || !email) {
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+    return res.status(400).json({
+      error: "Name y email son requeridos"
+    });
   }
 
   users[index] = {
     ...users[index],
     name,
     email,
-    role
+    role: role || "user"
   };
+
+  res.status(200).json(users[index]);
+};
+
+const patchUser = (req, res) => {
+  const { id } = req.params;
+  const { name, email, role } = req.body;
+
+  const index = users.findIndex(u => u.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado"
+    });
+  }
+
+  if (name !== undefined) {
+    users[index].name = name;
+  }
+
+  if (email !== undefined) {
+    users[index].email = email;
+  }
+
+  if (role !== undefined) {
+    users[index].role = role;
+  }
 
   res.status(200).json(users[index]);
 };
@@ -85,14 +120,14 @@ const deleteUser = (req, res) => {
   const index = users.findIndex(u => u.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({
+      error: "Usuario no encontrado"
+    });
   }
 
-  const deletedUser = users.splice(index, 1);
+  users.splice(index, 1);
 
-  res.status(200).json({
-    deleted: deletedUser[0].id
-  });
+  res.status(204).send();
 };
 
 module.exports = {
@@ -100,5 +135,6 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
+  patchUser,
   deleteUser
 };
