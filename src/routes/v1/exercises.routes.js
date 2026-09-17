@@ -7,7 +7,8 @@ const {
   getExerciseById,
   createExercise,
   updateExercise,
-  patchExercise
+  patchExercise,
+  deleteExercise
 } = require("../../controllers/exercises.controller");
 
 // GET /api/v1/exercises
@@ -24,5 +25,8 @@ router.put("/:id", updateExercise);
 
 // PATCH /api/v1/exercises/:id
 router.patch("/:id", patchExercise);
+
+// DELETE /api/v1/exercises/:id
+router.delete("/:id", deleteExercise);
 
 module.exports = router;
