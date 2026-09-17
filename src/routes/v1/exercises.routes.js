@@ -2,19 +2,15 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Lista de ejercicios"
-  });
-});
+const {
+  getExercises,
+  getExerciseById
+} = require("../../controllers/exercises.controller");
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
+// GET /api/v1/exercises
+router.get("/", getExercises);
 
-  res.status(200).json({
-    message: "Ejercicio encontrado",
-    id
-  });
-});
+// GET /api/v1/exercises/:id
+router.get("/:id", getExerciseById);
 
 module.exports = router;
