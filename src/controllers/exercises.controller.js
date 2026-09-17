@@ -31,7 +31,29 @@ const getExerciseById = (req, res) => {
   res.status(200).json(exercise);
 };
 
+const createExercise = (req, res) => {
+  const { name, muscleGroup, equipment } = req.body;
+
+  if (!name || !muscleGroup || !equipment) {
+    return res.status(400).json({
+      error: "name, muscleGroup y equipment son requeridos"
+    });
+  }
+
+  const newExercise = {
+    id: `exercise-${Date.now()}`,
+    name,
+    muscleGroup,
+    equipment
+  };
+
+  exercises.push(newExercise);
+
+  res.status(201).json(newExercise);
+};
+
 module.exports = {
   getExercises,
-  getExerciseById
+  getExerciseById,
+  createExercise
 };
