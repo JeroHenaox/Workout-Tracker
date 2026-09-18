@@ -14,11 +14,47 @@ let exercises = [
 ];
 
 const getExercises = (req, res) => {
-  res.status(200).json(exercises);
+  const { muscleGroup, equipment, limit } = req.query;
+
+  let result = [...exercises];
+
+  if (muscleGroup) {
+    result = result.filter(
+      exercise =>
+        exercise.muscleGroup.toLowerCase() === muscleGroup.toLowerCase()
+    );
+  }
+
+  if (equipment) {
+    result = result.filter(
+      exercise =>
+        exercise.equipment.toLowerCase() === equipment.toLowerCase()
+    );
+  }
+
+  if (limit !== undefined) {
+    const limitNumber = Number(limit);
+
+    if (isNaN(limitNumber) || limitNumber <= 0) {
+      return res.status(400).json({
+        error: "El parámetro limit debe ser un número mayor que 0"
+      });
+    }
+
+    result = result.slice(0, limitNumber);
+  }
+
+  res.status(200).json(result);
 };
 
 const getExerciseById = (req, res) => {
   const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({
+      error: "El ID del ejercicio es requerido"
+    });
+  }
 
   const exercise = exercises.find(e => e.id === id);
 
