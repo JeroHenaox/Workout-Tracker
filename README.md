@@ -1,275 +1,334 @@
 # Workout Tracker API
 
-API RESTful desarrollada con Node.js y Express para gestionar ejercicios de un sistema de entrenamiento.
+API RESTful desarrollada como actividad de formación en desarrollo de software utilizando Node.js, Express, Git y GitHub.
+
+El proyecto permite gestionar usuarios, rutinas de entrenamiento, ejercicios y el progreso de los usuarios.
 
 ## Tecnologías utilizadas
 
-* Node.js
-* Express
-* Git y GitHub
+- Node.js
+- Express
+- Git
+- GitHub
+- Thunder Client
 
-## Recurso: Exercises
+## Instalación
 
-La API permite consultar, crear, actualizar y eliminar ejercicios.
+Clonar el repositorio y entrar a la carpeta del proyecto.
 
-## Endpoints
+Instalar las dependencias:
 
-| Método | URL                                                   | Descripción                           | Estado          |
-| ------ | ----------------------------------------------------- | ------------------------------------- | --------------- |
-| GET    | `http://localhost:8000/api/v1/exercises`              | Listar todos los ejercicios           | 200             |
-| GET    | `http://localhost:8000/api/v1/exercises/exercise-001` | Obtener un ejercicio por ID           | 200 / 404       |
-| POST   | `http://localhost:8000/api/v1/exercises`              | Crear un ejercicio                    | 201 / 400       |
-| PUT    | `http://localhost:8000/api/v1/exercises/exercise-001` | Actualizar completamente un ejercicio | 200 / 400 / 404 |
-| PATCH  | `http://localhost:8000/api/v1/exercises/exercise-001` | Actualizar parcialmente un ejercicio  | 200 / 404       |
-| DELETE | `http://localhost:8000/api/v1/exercises/exercise-001` | Eliminar un ejercicio                 | 204 / 404       |
+npm install
 
-## GET - Listar ejercicios
+Iniciar el servidor:
 
-URL:
+npm start
 
-```text
-http://localhost:8000/api/v1/exercises
-```
+El servidor se ejecuta en:
 
-Respuesta:
+http://localhost:8000
 
-```json
-[
-  {
-    "id": "exercise-001",
-    "name": "Press de banca",
-    "muscleGroup": "Pecho",
-    "equipment": "Barra"
-  },
-  {
-    "id": "exercise-002",
-    "name": "Sentadilla",
-    "muscleGroup": "Piernas",
-    "equipment": "Barra"
-  }
-]
-```
+## Recursos de la API
 
-Estado:
+### Usuarios
 
-```text
-200 OK
-```
+GET /api/v1/users
 
-## GET - Obtener ejercicio por ID
+Obtiene todos los usuarios.
 
-URL:
+GET /api/v1/users/:id
 
-```text
-http://localhost:8000/api/v1/exercises/exercise-001
-```
+Obtiene un usuario específico utilizando su ID.
 
-Respuesta:
+POST /api/v1/users
 
-```json
+Crea un nuevo usuario.
+
+PUT /api/v1/users/:id
+
+Actualiza completamente un usuario.
+
+PATCH /api/v1/users/:id
+
+Actualiza parcialmente un usuario.
+
+DELETE /api/v1/users/:id
+
+Elimina un usuario.
+
+También se pueden realizar búsquedas mediante parámetros de consulta.
+
+Ejemplo:
+
+GET /api/v1/users?role=admin
+
+GET /api/v1/users?search=Juan
+
+
+### Workouts
+
+GET /api/v1/workouts
+
+Obtiene todas las rutinas de entrenamiento.
+
+GET /api/v1/workouts/:id
+
+Obtiene una rutina específica.
+
+POST /api/v1/workouts
+
+Crea una nueva rutina.
+
+PUT /api/v1/workouts/:id
+
+Actualiza completamente una rutina.
+
+PATCH /api/v1/workouts/:id
+
+Actualiza parcialmente una rutina.
+
+DELETE /api/v1/workouts/:id
+
+Elimina una rutina.
+
+También se pueden utilizar parámetros de consulta para realizar búsquedas.
+
+
+### Exercises
+
+GET /api/v1/exercises
+
+Obtiene todos los ejercicios.
+
+GET /api/v1/exercises/:id
+
+Obtiene un ejercicio específico.
+
+POST /api/v1/exercises
+
+Crea un nuevo ejercicio.
+
+PUT /api/v1/exercises/:id
+
+Actualiza completamente un ejercicio.
+
+PATCH /api/v1/exercises/:id
+
+Actualiza parcialmente un ejercicio.
+
+DELETE /api/v1/exercises/:id
+
+Elimina un ejercicio.
+
+Se pueden utilizar parámetros de consulta para filtrar ejercicios.
+
+Ejemplos:
+
+GET /api/v1/exercises?muscleGroup=chest
+
+GET /api/v1/exercises?equipment=dumbbell
+
+GET /api/v1/exercises?limit=5
+
+
+### Progress
+
+GET /api/v1/progress
+
+Obtiene los registros de progreso.
+
+GET /api/v1/progress/:id
+
+Obtiene un registro de progreso específico.
+
+POST /api/v1/progress
+
+Crea un nuevo registro de progreso.
+
+PUT /api/v1/progress/:id
+
+Actualiza completamente un registro de progreso.
+
+PATCH /api/v1/progress/:id
+
+Actualiza parcialmente un registro de progreso.
+
+DELETE /api/v1/progress/:id
+
+Elimina un registro de progreso.
+
+También se pueden utilizar parámetros de consulta.
+
+Ejemplos:
+
+GET /api/v1/progress?userId=1
+
+GET /api/v1/progress?workoutId=1
+
+
+## Parámetros de la petición
+
+### req.params
+
+Se utilizan para recibir valores directamente desde la URL.
+
+Ejemplo:
+
+GET /api/v1/users/1
+
+En este caso, el ID del usuario se recibe mediante req.params.
+
+
+### req.query
+
+Se utilizan para recibir parámetros de consulta.
+
+Ejemplo:
+
+GET /api/v1/users?role=admin
+
+Los valores se reciben mediante req.query.
+
+
+### req.body
+
+Se utiliza para recibir información enviada en el cuerpo de una petición POST, PUT o PATCH.
+
+Ejemplo:
+
 {
-  "id": "exercise-001",
-  "name": "Press de banca",
-  "muscleGroup": "Pecho",
-  "equipment": "Barra"
+  "name": "Juan",
+  "email": "juan@email.com"
 }
-```
 
-Estado:
 
-```text
-200 OK
-```
+## Cabeceras HTTP
 
-Si el ejercicio no existe:
+El proyecto incluye un endpoint para trabajar con cabeceras HTTP:
 
-```text
-404 Not Found
-```
+GET /api/headers
 
-## POST - Crear ejercicio
+Este endpoint recibe las siguientes cabeceras:
 
-URL:
+Content-Type
 
-```text
-http://localhost:8000/api/v1/exercises
-```
+Authorization
 
-Body:
+X-API-Key
 
-```json
-{
-  "name": "Curl de bíceps",
-  "muscleGroup": "Bíceps",
-  "equipment": "Mancuernas"
-}
-```
+La cabecera X-API-Key es obligatoria.
 
-La API genera automáticamente el ID del nuevo ejercicio.
+Ejemplo:
 
-Estado:
+X-API-Key: 123456
 
-```text
-201 Created
-```
+Si no se envía la API Key, el servidor responde con:
 
-Si faltan datos requeridos:
+401 Unauthorized
 
-```text
-400 Bad Request
-```
+También se utiliza la cabecera de respuesta:
 
-## PUT - Actualizar ejercicio
+X-API-Version: 1.0
 
-URL:
 
-```text
-http://localhost:8000/api/v1/exercises/exercise-001
-```
+## Métodos HTTP utilizados
 
-Body:
+GET: consultar información.
 
-```json
-{
-  "name": "Press inclinado",
-  "muscleGroup": "Pecho",
-  "equipment": "Mancuernas"
-}
-```
+POST: crear nuevos recursos.
 
-Estado:
+PUT: actualizar completamente un recurso.
 
-```text
-200 OK
-```
+PATCH: actualizar parcialmente un recurso.
 
-## PATCH - Actualizar parcialmente
+DELETE: eliminar un recurso.
 
-URL:
 
-```text
-http://localhost:8000/api/v1/exercises/exercise-001
-```
+## Códigos de estado HTTP
 
-Body:
+200 OK: petición realizada correctamente.
 
-```json
-{
-  "equipment": "Barra"
-}
-```
+201 Created: recurso creado correctamente.
 
-Estado:
+204 No Content: operación realizada correctamente sin contenido en la respuesta.
 
-```text
-200 OK
-```
+400 Bad Request: la información enviada no es válida.
 
-PATCH permite modificar solamente los campos enviados.
+401 Unauthorized: falta la autorización o API Key requerida.
 
-## DELETE - Eliminar ejercicio
+404 Not Found: recurso no encontrado.
 
-URL:
-
-```text
-http://localhost:8000/api/v1/exercises/exercise-001
-```
-
-Estado:
-
-```text
-204 No Content
-```
-
-Si el ejercicio no existe:
-
-```text
-404 Not Found
-```
-
-## Query Strings
-
-La API permite utilizar query strings para filtrar y limitar los resultados.
-
-### Filtrar por grupo muscular
-
-```text
-http://localhost:8000/api/v1/exercises?muscleGroup=Pecho
-```
-
-### Filtrar por equipo
-
-```text
-http://localhost:8000/api/v1/exercises?equipment=Barra
-```
-
-### Limitar resultados
-
-```text
-http://localhost:8000/api/v1/exercises?limit=1
-```
-
-### Combinar filtros
-
-```text
-http://localhost:8000/api/v1/exercises?muscleGroup=Pecho&limit=1
-```
-
-Si `limit` no es un número válido:
-
-```text
-http://localhost:8000/api/v1/exercises?limit=abc
-```
-
-Respuesta:
-
-```json
-{
-  "error": "El parámetro limit debe ser un número mayor que 0"
-}
-```
-
-Estado:
-
-```text
-400 Bad Request
-```
-
-## Códigos de estado utilizados
-
-| Código | Significado                     |
-| ------ | ------------------------------- |
-| 200    | Operación exitosa               |
-| 201    | Recurso creado                  |
-| 204    | Recurso eliminado correctamente |
-| 400    | Datos o parámetros incorrectos  |
-| 404    | Recurso no encontrado           |
 
 ## Estructura del proyecto
 
-```text
-src/
-├── controllers/
-│   └── exercises.controller.js
-└── routes/
-    └── v1/
-        └── exercises.routes.js
-```
+workout-tracker/
+│
+├── src/
+│   ├── config/
+│   │   └── env.js
+│   │
+│   ├── controllers/
+│   │   ├── users.controller.js
+│   │   ├── workouts.controller.js
+│   │   ├── exercises.controller.js
+│   │   └── progress.controller.js
+│   │
+│   ├── routes/
+│   │   ├── v1/
+│   │   │   ├── index.js
+│   │   │   ├── users.routes.js
+│   │   │   ├── workouts.routes.js
+│   │   │   └── exercises.routes.js
+│   │   ├── index.js
+│   │   └── progress.routes.js
+│   │
+│   └── app.js
+│
+├── package.json
+├── package-lock.json
+└── README.md
 
-## Versionamiento
 
-El recurso `exercises` fue desarrollado en la rama:
+## Git y ramas
 
-```text
-feat/exercises
-```
+El proyecto utiliza Git para controlar las versiones del código.
 
-Los cambios fueron organizados mediante commits siguiendo la secuencia establecida en la actividad:
+Ramas utilizadas:
 
-1. Scaffold de router y endpoints básicos.
-2. Implementación de rutas GET.
-3. Creación de recursos con POST.
-4. Actualización con PUT y PATCH.
-5. Eliminación con DELETE.
-6. Validación de parámetros, query strings y estados HTTP.
-7. Actualización del README con endpoints, ejemplos y estados.
+main: rama principal del proyecto.
+
+develop: rama utilizada para integrar los diferentes desarrollos.
+
+feat/users: desarrollo relacionado con usuarios.
+
+feat/workouts: desarrollo relacionado con rutinas.
+
+feat/exercises: desarrollo relacionado con ejercicios.
+
+feat/progress: desarrollo relacionado con el progreso.
+
+
+## Pruebas
+
+Las peticiones de la API fueron realizadas utilizando Thunder Client.
+
+Se probaron los principales endpoints mediante los métodos:
+
+GET
+
+POST
+
+PUT
+
+PATCH
+
+DELETE
+
+También se realizaron pruebas utilizando parámetros de consulta, parámetros de URL, cuerpo de las peticiones y cabeceras HTTP.
+
+
+## Autor
+
+Jeronimo Henao Sanchez
+
+Proyecto desarrollado como actividad de formación en desarrollo de software.
