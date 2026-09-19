@@ -34,6 +34,14 @@ app.get("/api/headers", (req, res) => {
 
 app.use("/api", routes);
 
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(500).json({
+    error: "Error interno del servidor"
+  });
+});
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
