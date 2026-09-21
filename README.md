@@ -2,265 +2,520 @@
 
 API RESTful desarrollada como actividad de formación en desarrollo de software utilizando Node.js, Express, Git y GitHub.
 
-El proyecto permite gestionar usuarios, rutinas de entrenamiento, ejercicios y el progreso de los usuarios.
+El proyecto permite gestionar usuarios, rutinas de entrenamiento, ejercicios y registros de progreso.
 
 ## Tecnologías utilizadas
 
-- Node.js
-- Express
-- Git
-- GitHub
-- Thunder Client
+* Node.js
+* Express
+* Git
+* GitHub
+* Thunder Client
 
 ## Instalación
 
-Clonar el repositorio y entrar a la carpeta del proyecto.
-
 Instalar las dependencias:
 
+```bash
 npm install
+```
 
 Iniciar el servidor:
 
+```bash
 npm start
+```
 
 El servidor se ejecuta en:
 
+```text
 http://localhost:8000
+```
 
-## Recursos de la API
+# Endpoints de la API
 
-### Usuarios
+La API utiliza la versión:
 
-GET /api/v1/users
+```text
+http://localhost:8000/api/v1
+```
 
-Obtiene todos los usuarios.
+## Users
 
-GET /api/v1/users/:id
+| Método | Endpoint                                 | Descripción                         |
+| ------ | ---------------------------------------- | ----------------------------------- |
+| GET    | `http://localhost:8000/api/v1/users`     | Obtener todos los usuarios          |
+| GET    | `http://localhost:8000/api/v1/users/:id` | Obtener un usuario por ID           |
+| POST   | `http://localhost:8000/api/v1/users`     | Crear un usuario                    |
+| PUT    | `http://localhost:8000/api/v1/users/:id` | Actualizar completamente un usuario |
+| PATCH  | `http://localhost:8000/api/v1/users/:id` | Actualizar parcialmente un usuario  |
+| DELETE | `http://localhost:8000/api/v1/users/:id` | Eliminar un usuario                 |
 
-Obtiene un usuario específico utilizando su ID.
+### Ejemplo GET
 
-POST /api/v1/users
+Petición:
 
-Crea un nuevo usuario.
+```text
+http://localhost:8000/api/v1/users
+```
 
-PUT /api/v1/users/:id
+Respuesta:
 
-Actualiza completamente un usuario.
+```json
+[
+  {
+    "id": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+    "name": "Carlos Navia",
+    "email": "carlos@example.com",
+    "role": "user",
+    "createdAt": "2025-09-12T12:00:00Z"
+  }
+]
+```
 
-PATCH /api/v1/users/:id
+### Ejemplo GET por ID
 
-Actualiza parcialmente un usuario.
+Petición:
 
-DELETE /api/v1/users/:id
+```text
+http://localhost:8000/api/v1/users/b42f53fa-7b30-4b91-8d36-dc1c6ef27611
+```
 
-Elimina un usuario.
+### Ejemplo POST
 
-También se pueden realizar búsquedas mediante parámetros de consulta.
+Petición:
 
-Ejemplo:
+```text
+http://localhost:8000/api/v1/users
+```
 
-GET /api/v1/users?role=admin
+Body:
 
-GET /api/v1/users?search=Juan
-
-
-### Workouts
-
-GET /api/v1/workouts
-
-Obtiene todas las rutinas de entrenamiento.
-
-GET /api/v1/workouts/:id
-
-Obtiene una rutina específica.
-
-POST /api/v1/workouts
-
-Crea una nueva rutina.
-
-PUT /api/v1/workouts/:id
-
-Actualiza completamente una rutina.
-
-PATCH /api/v1/workouts/:id
-
-Actualiza parcialmente una rutina.
-
-DELETE /api/v1/workouts/:id
-
-Elimina una rutina.
-
-También se pueden utilizar parámetros de consulta para realizar búsquedas.
-
-
-### Exercises
-
-GET /api/v1/exercises
-
-Obtiene todos los ejercicios.
-
-GET /api/v1/exercises/:id
-
-Obtiene un ejercicio específico.
-
-POST /api/v1/exercises
-
-Crea un nuevo ejercicio.
-
-PUT /api/v1/exercises/:id
-
-Actualiza completamente un ejercicio.
-
-PATCH /api/v1/exercises/:id
-
-Actualiza parcialmente un ejercicio.
-
-DELETE /api/v1/exercises/:id
-
-Elimina un ejercicio.
-
-Se pueden utilizar parámetros de consulta para filtrar ejercicios.
-
-Ejemplos:
-
-GET /api/v1/exercises?muscleGroup=chest
-
-GET /api/v1/exercises?equipment=dumbbell
-
-GET /api/v1/exercises?limit=5
-
-
-### Progress
-
-GET /api/v1/progress
-
-Obtiene los registros de progreso.
-
-GET /api/v1/progress/:id
-
-Obtiene un registro de progreso específico.
-
-POST /api/v1/progress
-
-Crea un nuevo registro de progreso.
-
-PUT /api/v1/progress/:id
-
-Actualiza completamente un registro de progreso.
-
-PATCH /api/v1/progress/:id
-
-Actualiza parcialmente un registro de progreso.
-
-DELETE /api/v1/progress/:id
-
-Elimina un registro de progreso.
-
-También se pueden utilizar parámetros de consulta.
-
-Ejemplos:
-
-GET /api/v1/progress?userId=1
-
-GET /api/v1/progress?workoutId=1
-
-
-## Parámetros de la petición
-
-### req.params
-
-Se utilizan para recibir valores directamente desde la URL.
-
-Ejemplo:
-
-GET /api/v1/users/1
-
-En este caso, el ID del usuario se recibe mediante req.params.
-
-
-### req.query
-
-Se utilizan para recibir parámetros de consulta.
-
-Ejemplo:
-
-GET /api/v1/users?role=admin
-
-Los valores se reciben mediante req.query.
-
-
-### req.body
-
-Se utiliza para recibir información enviada en el cuerpo de una petición POST, PUT o PATCH.
-
-Ejemplo:
-
+```json
 {
-  "name": "Juan",
-  "email": "juan@email.com"
+  "name": "Juan Perez",
+  "email": "juan@example.com",
+  "role": "user"
 }
+```
 
+### Query Strings
 
-## Cabeceras HTTP
+Filtrar por rol:
 
-El proyecto incluye un endpoint para trabajar con cabeceras HTTP:
+```text
+http://localhost:8000/api/v1/users?role=user
+```
 
-GET /api/headers
+Buscar por nombre o correo:
 
-Este endpoint recibe las siguientes cabeceras:
+```text
+http://localhost:8000/api/v1/users?search=Carlos
+```
 
-Content-Type
+Combinar filtros:
 
-Authorization
+```text
+http://localhost:8000/api/v1/users?role=user&search=Carlos
+```
 
-X-API-Key
+---
 
-La cabecera X-API-Key es obligatoria.
+# Workouts
+
+Permite gestionar las rutinas de entrenamiento de los usuarios.
+
+## Endpoints
+
+| Método | Endpoint                                    | Descripción                         |
+| ------ | ------------------------------------------- | ----------------------------------- |
+| GET    | `http://localhost:8000/api/v1/workouts`     | Obtener todas las rutinas           |
+| GET    | `http://localhost:8000/api/v1/workouts/:id` | Obtener una rutina por ID           |
+| POST   | `http://localhost:8000/api/v1/workouts`     | Crear una rutina                    |
+| PUT    | `http://localhost:8000/api/v1/workouts/:id` | Actualizar completamente una rutina |
+| PATCH  | `http://localhost:8000/api/v1/workouts/:id` | Actualizar parcialmente una rutina  |
+| DELETE | `http://localhost:8000/api/v1/workouts/:id` | Eliminar una rutina                 |
+
+### Ejemplo GET
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/workouts
+```
+
+### Ejemplo GET por ID
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/workouts/workout-001
+```
+
+### Ejemplo POST
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/workouts
+```
+
+Body:
+
+```json
+{
+  "userId": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+  "name": "Rutina de pecho",
+  "description": "Entrenamiento para pecho"
+}
+```
+
+### Query String
+
+Filtrar por usuario:
+
+```text
+http://localhost:8000/api/v1/workouts?userId=b42f53fa-7b30-4b91-8d36-dc1c6ef27611
+```
+
+---
+
+# Exercises
+
+Permite gestionar los ejercicios disponibles para las rutinas.
+
+## Endpoints
+
+| Método | Endpoint                                     | Descripción                           |
+| ------ | -------------------------------------------- | ------------------------------------- |
+| GET    | `http://localhost:8000/api/v1/exercises`     | Obtener todos los ejercicios          |
+| GET    | `http://localhost:8000/api/v1/exercises/:id` | Obtener un ejercicio por ID           |
+| POST   | `http://localhost:8000/api/v1/exercises`     | Crear un ejercicio                    |
+| PUT    | `http://localhost:8000/api/v1/exercises/:id` | Actualizar completamente un ejercicio |
+| PATCH  | `http://localhost:8000/api/v1/exercises/:id` | Actualizar parcialmente un ejercicio  |
+| DELETE | `http://localhost:8000/api/v1/exercises/:id` | Eliminar un ejercicio                 |
+
+### Ejemplo GET
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/exercises
+```
+
+Respuesta:
+
+```json
+[
+  {
+    "id": "exercise-001",
+    "name": "Press de banca",
+    "muscleGroup": "Pecho",
+    "equipment": "Barra"
+  },
+  {
+    "id": "exercise-002",
+    "name": "Sentadilla",
+    "muscleGroup": "Piernas",
+    "equipment": "Barra"
+  }
+]
+```
+
+### Ejemplo GET por ID
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/exercises/exercise-001
+```
+
+### Ejemplo POST
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/exercises
+```
+
+Body:
+
+```json
+{
+  "name": "Curl de bíceps",
+  "muscleGroup": "Bíceps",
+  "equipment": "Mancuernas"
+}
+```
+
+### Query Strings
+
+Filtrar por grupo muscular:
+
+```text
+http://localhost:8000/api/v1/exercises?muscleGroup=Pecho
+```
+
+Filtrar por equipo:
+
+```text
+http://localhost:8000/api/v1/exercises?equipment=Barra
+```
+
+Limitar resultados:
+
+```text
+http://localhost:8000/api/v1/exercises?limit=1
+```
+
+Combinar filtros:
+
+```text
+http://localhost:8000/api/v1/exercises?muscleGroup=Pecho&limit=1
+```
+
+---
+
+# Progress
+
+Permite registrar y consultar el progreso de los entrenamientos.
+
+## Endpoints
+
+| Método | Endpoint                                    | Descripción                             |
+| ------ | ------------------------------------------- | --------------------------------------- |
+| GET    | `http://localhost:8000/api/v1/progress`     | Obtener todos los registros de progreso |
+| GET    | `http://localhost:8000/api/v1/progress/:id` | Obtener un registro por ID              |
+| POST   | `http://localhost:8000/api/v1/progress`     | Crear un registro de progreso           |
+| PUT    | `http://localhost:8000/api/v1/progress/:id` | Actualizar completamente un registro    |
+| PATCH  | `http://localhost:8000/api/v1/progress/:id` | Actualizar parcialmente un registro     |
+| DELETE | `http://localhost:8000/api/v1/progress/:id` | Eliminar un registro                    |
+
+### Ejemplo GET
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/progress
+```
+
+Respuesta:
+
+```json
+[
+  {
+    "id": "progress-001",
+    "userId": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+    "workoutId": "workout-001",
+    "date": "2025-09-12",
+    "weight": 70,
+    "repetitions": 10
+  },
+  {
+    "id": "progress-002",
+    "userId": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+    "workoutId": "workout-002",
+    "date": "2025-09-13",
+    "weight": 75,
+    "repetitions": 8
+  }
+]
+```
+
+### Ejemplo GET por ID
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/progress/progress-001
+```
+
+### Ejemplo POST
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/progress
+```
+
+Body:
+
+```json
+{
+  "userId": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+  "workoutId": "workout-001",
+  "date": "2025-09-15",
+  "weight": 90,
+  "repetitions": 5
+}
+```
+
+### Ejemplo PUT
+
+Petición:
+
+```text
+http://localhost:8000/api/v1/progress/progress-001
+```
+
+Body:
+
+```json
+{
+  "userId": "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
+  "workoutId": "workout-001",
+  "date": "2025-09-15",
+  "weight": 90,
+  "repetitions": 5
+}
+```
+
+### Query Strings
+
+Filtrar por usuario:
+
+```text
+http://localhost:8000/api/v1/progress?userId=b42f53fa-7b30-4b91-8d36-dc1c6ef27611
+```
+
+Filtrar por rutina:
+
+```text
+http://localhost:8000/api/v1/progress?workoutId=workout-001
+```
+
+---
+
+# Parámetros de ruta
+
+Los identificadores de los recursos se reciben mediante `req.params`.
 
 Ejemplo:
 
-X-API-Key: 123456
+```text
+http://localhost:8000/api/v1/users/b42f53fa-7b30-4b91-8d36-dc1c6ef27611
+```
 
-Si no se envía la API Key, el servidor responde con:
+El valor del ID se obtiene mediante:
 
+```js
+const { id } = req.params;
+```
+
+---
+
+# Query Strings
+
+Los parámetros enviados después del signo `?` se reciben mediante `req.query`.
+
+Ejemplo:
+
+```text
+http://localhost:8000/api/v1/exercises?muscleGroup=Pecho
+```
+
+Estos parámetros se utilizan para realizar filtros o limitar los resultados.
+
+---
+
+# Body
+
+Los datos enviados mediante POST, PUT y PATCH se reciben mediante `req.body`.
+
+El proyecto utiliza:
+
+```js
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+```
+
+Ejemplo:
+
+```json
+{
+  "name": "Press de banca",
+  "muscleGroup": "Pecho",
+  "equipment": "Barra"
+}
+```
+
+---
+
+# Cabeceras HTTP
+
+La API cuenta con un endpoint para trabajar con cabeceras HTTP.
+
+Endpoint:
+
+```text
+http://localhost:8000/api/headers
+```
+
+Se pueden enviar las siguientes cabeceras:
+
+```text
+Content-Type
+Authorization
+X-API-Key
+```
+
+La API obtiene la API Key mediante:
+
+```js
+req.get("X-API-Key")
+```
+
+Si no se envía la API Key, la API responde:
+
+```json
+{
+  "error": "API Key requerida en cabecera X-API-Key"
+}
+```
+
+Estado:
+
+```text
 401 Unauthorized
+```
 
-También se utiliza la cabecera de respuesta:
+La API también establece la cabecera:
 
+```text
 X-API-Version: 1.0
+```
 
+---
 
-## Métodos HTTP utilizados
+# Métodos HTTP utilizados
 
-GET: consultar información.
+| Método | Uso                                 |
+| ------ | ----------------------------------- |
+| GET    | Consultar recursos                  |
+| POST   | Crear recursos                      |
+| PUT    | Actualizar completamente un recurso |
+| PATCH  | Actualizar parcialmente un recurso  |
+| DELETE | Eliminar recursos                   |
 
-POST: crear nuevos recursos.
+---
 
-PUT: actualizar completamente un recurso.
+# Códigos de estado HTTP
 
-PATCH: actualizar parcialmente un recurso.
+| Código | Significado           | Uso                              |
+| ------ | --------------------- | -------------------------------- |
+| 200    | OK                    | Petición realizada correctamente |
+| 201    | Created               | Recurso creado correctamente     |
+| 204    | No Content            | Recurso eliminado correctamente  |
+| 400    | Bad Request           | Datos o parámetros incorrectos   |
+| 401    | Unauthorized          | API Key requerida                |
+| 404    | Not Found             | Recurso no encontrado            |
+| 500    | Internal Server Error | Error interno del servidor       |
 
-DELETE: eliminar un recurso.
+---
 
+# Estructura del proyecto
 
-## Códigos de estado HTTP
-
-200 OK: petición realizada correctamente.
-
-201 Created: recurso creado correctamente.
-
-204 No Content: operación realizada correctamente sin contenido en la respuesta.
-
-400 Bad Request: la información enviada no es válida.
-
-401 Unauthorized: falta la autorización o API Key requerida.
-
-404 Not Found: recurso no encontrado.
-
-
-## Estructura del proyecto
-
+```text
 workout-tracker/
 │
 ├── src/
@@ -274,61 +529,81 @@ workout-tracker/
 │   │   └── progress.controller.js
 │   │
 │   ├── routes/
-│   │   ├── v1/
-│   │   │   ├── index.js
-│   │   │   ├── users.routes.js
-│   │   │   ├── workouts.routes.js
-│   │   │   └── exercises.routes.js
 │   │   ├── index.js
-│   │   └── progress.routes.js
+│   │   ├── progress.routes.js
+│   │   └── v1/
+│   │       ├── index.js
+│   │       ├── users.routes.js
+│   │       ├── workouts.routes.js
+│   │       └── exercises.routes.js
 │   │
 │   └── app.js
 │
 ├── package.json
 ├── package-lock.json
 └── README.md
+```
 
+---
 
-## Git y ramas
+# Versionamiento con Git
 
-El proyecto utiliza Git para controlar las versiones del código.
+El proyecto utiliza Git y GitHub para controlar las versiones.
 
-Ramas utilizadas:
+## Ramas principales
 
-main: rama principal del proyecto.
+```text
+main
+develop
+```
 
-develop: rama utilizada para integrar los diferentes desarrollos.
+## Ramas de funcionalidades
 
-feat/users: desarrollo relacionado con usuarios.
+```text
+feat/users
+feat/workouts
+feat/exercises
+feat/progress
+```
 
-feat/workouts: desarrollo relacionado con rutinas.
+Cada recurso fue desarrollado en su propia rama y posteriormente integrado en `develop`.
 
-feat/exercises: desarrollo relacionado con ejercicios.
+Finalmente, los cambios de `develop` fueron integrados en `main`.
 
-feat/progress: desarrollo relacionado con el progreso.
+---
 
+# Pruebas
 
-## Pruebas
+Las pruebas de los endpoints fueron realizadas utilizando Thunder Client.
 
-Las peticiones de la API fueron realizadas utilizando Thunder Client.
+Se comprobaron:
 
-Se probaron los principales endpoints mediante los métodos:
+* GET para listar recursos.
+* GET por ID.
+* POST para crear recursos.
+* PUT para actualizar recursos completos.
+* PATCH para actualizar parcialmente.
+* DELETE para eliminar recursos.
+* Parámetros mediante `req.params`.
+* Query strings mediante `req.query`.
+* Datos mediante `req.body`.
+* Cabeceras HTTP.
+* API Key.
+* Diferentes estados HTTP.
 
-GET
+Los principales recursos utilizados durante las pruebas fueron:
 
-POST
+```text
+http://localhost:8000/api/v1/users
+http://localhost:8000/api/v1/workouts
+http://localhost:8000/api/v1/exercises
+http://localhost:8000/api/v1/progress
+```
 
-PUT
+---
 
-PATCH
-
-DELETE
-
-También se realizaron pruebas utilizando parámetros de consulta, parámetros de URL, cuerpo de las peticiones y cabeceras HTTP.
-
-
-## Autor
+# Autor
 
 Jeronimo Henao Sanchez
 
-Proyecto desarrollado como actividad de formación en desarrollo de software.
+Proyecto desarrollado como actividad de formación en desarrollo de software utilizando Node.js, Express y Git.
